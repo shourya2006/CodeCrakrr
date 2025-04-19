@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import CodeForces from './components/CodeForces';
 import CodeChef from './components/CodeChef';
+import LeetCode from './components/LeetCode';
 
 const ComingSoon = ({ title }) => (
   <div className="p-8">
@@ -58,7 +59,7 @@ const routes = [
       },
       {
         path: '/leetcode',
-        element: <ComingSoon title="LeetCode Analytics" />,
+        element: <LeetCode />,
       },
       {
         path: '/codechef',
