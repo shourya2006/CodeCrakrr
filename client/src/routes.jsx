@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import CodeForces from './components/CodeForces';
+import CodeChef from './components/CodeChef';
 
 const ComingSoon = ({ title }) => (
   <div className="p-8">
@@ -61,7 +62,7 @@ const routes = [
       },
       {
         path: '/codechef',
-        element: <ComingSoon title="CodeChef Analytics" />,
+        element: <CodeChef />,
       },
       {
         path: '/sde-sheet',
