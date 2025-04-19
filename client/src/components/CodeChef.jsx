@@ -66,7 +66,7 @@ const CodeChef = () => {
           <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden mb-2">
             <div className="h-full bg-red-500 rounded-full w-2/3" 
                  style={{ 
-                   animation: 'progress-loading 1.5s ease-in-out infinite',
+                   animation: 'progress-loading 3s ease-in-out infinite',
                    transformOrigin: 'left center'
                  }}>
             </div>
@@ -79,7 +79,6 @@ const CodeChef = () => {
           <style jsx>{`
             @keyframes progress-loading {
               0% { width: 0%; }
-              50% { width: 60%; }
               100% { width: 100%; }
             }
           `}</style>
