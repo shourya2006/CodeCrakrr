@@ -35,9 +35,9 @@ const Sidebar = () => {
           CodeChef
         </NavLink>
         
-        <NavLink to="/sde" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
+        <NavLink to="/suggested-questions" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
           <i className="fa-solid fa-layer-group text-lg w-8"></i>
-          SDE Sheets
+          Suggested Questions
         </NavLink>
         
         <NavLink to="/qod" className={({ isActive }) => isActive ? activeStyle : inactiveStyle}>
