@@ -4,6 +4,9 @@ import Layout from './components/Layout';
 import CodeForces from './components/CodeForces';
 import CodeChef from './components/CodeChef';
 import LeetCode from './components/LeetCode';
+import SDESheets from './components/SDESheets';
+import SDESheetDetail from './components/SDESheetDetail';
+import SDESheetUpload from './components/SDESheetUpload';
 
 const ComingSoon = ({ title }) => (
   <div className="p-8">
@@ -66,8 +69,20 @@ const routes = [
         element: <CodeChef />,
       },
       {
+        path: '/sde',
+        element: <SDESheets />,
+      },
+      {
+        path: '/sde/upload',
+        element: <SDESheetUpload />,
+      },
+      {
+        path: '/sde/:sheetId',
+        element: <SDESheetDetail />,
+      },
+      {
         path: '/sde-sheet',
-        element: <ComingSoon title="SDE Sheet Tracker" />,
+        element: <Navigate to="/sde" replace />,
       },
       {
         path: '/qod',
