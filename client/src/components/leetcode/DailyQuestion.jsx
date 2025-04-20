@@ -34,11 +34,9 @@ const DailyQuestion = () => {
     fetchDailyQuestion();
   }, []);
   
-  // Function to decode HTML entities and format properly for display
   const formatQuestionHTML = (html) => {
     if (!html) return '';
-    
-    // Replace common LeetCode HTML patterns with proper React/JSX friendly format
+
     let formattedHTML = html
       // Fix code blocks and elements
       .replace(/<code>/g, '<span class="bg-gray-100 px-1 py-0.5 rounded text-pink-600 font-mono">')
@@ -63,7 +61,6 @@ const DailyQuestion = () => {
       .replace(/<strong class="example">Example \d+:<\/strong>/g, match => 
         `<div class="bg-gray-50 p-4 rounded-lg my-4 border border-gray-200"><h4 class="font-bold text-gray-700 mb-3">${match.replace(/<\/?strong[^>]*>/g, '')}</h4>`)
       
-
       
       // Display Output and Explanation on new lines
       .replace(/Output:/g, '<br /><br />Output:')
