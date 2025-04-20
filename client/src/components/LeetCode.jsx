@@ -5,6 +5,7 @@ import ActivityHeatmap from './leetcode/ActivityHeatmap';
 import ProblemStats from './leetcode/ProblemStats';
 import RecentQuestions from './leetcode/RecentQuestions';
 import MaxStreak from './leetcode/MaxStreak';
+import DailyQuestion from './leetcode/DailyQuestion';
 
 const LEETCODE_API_BASE = 'https://leetcode-api-faisalshohag.vercel.app';
 const username = 'ubhranipreetish';
@@ -85,19 +86,6 @@ const LeetCode = () => {
   const getQuestionIdFromTitle = (title) => {
     const match = title.match(/^(\d+)\./);
     return match ? match[1] : '0';
-  };
-  
-  const getLast6Months = () => {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const currentMonth = new Date().getMonth();
-    const last6Months = [];
-    
-    for (let i = 5; i >= 0; i--) {
-      const monthIndex = (currentMonth - i + 12) % 12;
-      last6Months.push(months[monthIndex]);
-    }
-    
-    return last6Months;
   };
   
   const processUserStats = () => {
@@ -254,21 +242,18 @@ const LeetCode = () => {
         ))}
       </div>
       
-      <div className="mb-8">
-        <ProblemStats userStats={userStats} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="h-full flex flex-col">
+          <DailyQuestion />
+        </div>
+        <RecentQuestions submissions={processedSubmissions} />
       </div>
       
-      <div className="mb-8">
-        <MaxStreak submissionCalendar={profileCalendar} />
-      </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <ActivityHeatmap 
-          submissionCalendar={profileCalendar} 
-          monthLabels={getLast6Months()}
-        />
-        
-        <RecentQuestions recentSubmissions={processedSubmissions} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="lg:col-span-2">
+          <ActivityHeatmap submissionCalendar={profileCalendar} />
+        </div>
+        <ProblemStats stats={userStats} />
       </div>
     </div>
   );
