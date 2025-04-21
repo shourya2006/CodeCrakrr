@@ -12,7 +12,7 @@ const CodeForces = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  const username = 'Kraven';
+  const username = 'one_unknown';
   
   useEffect(() => {
     const fetchUserData = async () => {
