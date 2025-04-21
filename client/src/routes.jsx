@@ -4,7 +4,8 @@ import Layout from './components/Layout';
 import CodeForces from './components/CodeForces';
 import CodeChef from './components/CodeChef';
 import LeetCode from './components/LeetCode';
-import QuestionOfTheDayPage from './pages/QuestionOfTheDayPage';
+import QuestionOfTheDayPage from './components/QuestionOfTheDayPage';
+import SuggestedQuestions from './components/SuggestedQuestions';
 
 
 const ComingSoon = ({ title }) => (
@@ -69,7 +70,7 @@ const routes = [
       },
       {
         path: '/suggested-questions',
-        element: <ComingSoon title="Suggested Questions" />,
+        element: <SuggestedQuestions />,
       },
       {
         path: '/qod',

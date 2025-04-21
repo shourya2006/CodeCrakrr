@@ -1,6 +1,6 @@
 import React from 'react';
-import DailyQuestion from '../components/leetcode/DailyQuestion';
-import HeaderBar from '../components/HeaderBar';
+import DailyQuestion from './leetcode/DailyQuestion';
+import HeaderBar from './HeaderBar';
 
 const QuestionOfTheDayPage = () => {
   return (

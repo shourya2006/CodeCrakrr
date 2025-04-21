@@ -97,3 +97,21 @@ To change the usernames for each platform, modify the following files:
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+# Setting up Environment Variables
+
+For security reasons, API keys and other sensitive information are stored in environment variables.
+
+## Setup
+
+1. Create a `.env` file in the `client/` directory
+2. Add your API keys following the format in `.env.example`
+3. Make sure `.env` is in your `.gitignore` file
+
+Example:
+```
+VITE_DEEPSEEK_API_KEY=your_api_key_here
+```
+
+## Important Note
+Never commit your `.env` file to Git. The `.env.example` file is provided as a template without actual values.
