@@ -14,7 +14,7 @@ const Sidebar = () => {
           </div>
         </div>
         <div className="ml-3">
-          <div className="font-semibold text-gray-800">Code Crakrr</div>
+          <div className="font-semibold text-gray-800">SolveIQ</div>
           <div className="text-xs text-gray-400">India</div>
         </div>
       </div>
