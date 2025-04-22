@@ -1,12 +1,65 @@
-# React + Vite
+# SolveIQ Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This directory contains the React-based frontend for SolveIQ, a comprehensive competitive programming progress tracker.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 18** with modern hooks for state management
+- **Vite** for fast development and optimized builds
+- **Tailwind CSS** for styling
+- **React Router** for navigation
+- **OpenRouter API** for AI integration with DeepSeek
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+- Node.js 14+
+- npm or yarn
+
+### Installation
+
+1. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn
+   ```
+
+2. Create a `.env` file with your API keys:
+   ```bash
+   VITE_DEEPSEEK_API_KEY=your_api_key_here
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open [http://localhost:5173](http://localhost:5173) in your browser
+
+## Component Structure
+
+- `App.jsx` - The application container
+- `/components` - All React components
+  - Platform-specific components in `/codeforces`, `/leetcode`, and `/codechef`
+  - `SuggestedQuestions.jsx` - AI-powered question recommendations
+  - `Settings.jsx` - User profile configuration
+  - `HeaderBar.jsx`, `Sidebar.jsx` - Common UI elements
+
+## Available Scripts
+
+- `npm run dev` - Start the development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+- `npm run preview` - Preview the production build locally
+
+## Features
+
+- Real-time platform data fetching
+- Interactive charts and visualizations
+- AI-powered question recommendations
+- Local storage-based preferences
+- Responsive design for all screen sizes

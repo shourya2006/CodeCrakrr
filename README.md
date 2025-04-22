@@ -1,13 +1,14 @@
-# CodeCracker
+# SolveIQ
 
 A modern web application for tracking and visualizing competitive programming progress across multiple platforms including CodeForces, LeetCode, and CodeChef.
 
 ## Features
 
-- **Multi-Platform Integration:** Track your performance across CodeForces, LeetCode, and CodeChef in one dashboard
-- **Problem Visualization:** View problems solved by difficulty and tags
-- **Activity Tracking:** See your coding activity with interactive heatmaps
-- **Rating History:** Visualize your rating progression over time
+- **Multi-Platform Integration:** Track your performance across CodeForces, LeetCode, and CodeChef in one unified dashboard
+- **Problem Visualization:** View problems solved by difficulty and tags with intuitive charts
+- **Activity Tracking:** Monitor your coding activity with interactive heatmaps
+- **Rating History:** Visualize your rating progression over time with detailed graphs
+- **Personalized Recommendations:** Get AI-powered question suggestions based on your skill level
 - **Clean UI:** Modern, responsive interface built with React and Tailwind CSS
 
 ## Platforms Supported
@@ -25,6 +26,7 @@ A modern web application for tracking and visualizing competitive programming pr
 - Recent submissions history
 - Maximum streak tracking
 - Global ranking
+- AI-powered question recommendations
 
 ### CodeChef
 - User rating and profile information
@@ -38,6 +40,7 @@ A modern web application for tracking and visualizing competitive programming pr
 - **Styling:** Tailwind CSS, Font Awesome icons
 - **Data Visualization:** Custom-built visualization components
 - **API Integration:** Integration with competitive programming platform APIs
+- **AI Features:** Powered by DeepSeek AI for personalized problem recommendations
 
 ## Getting Started
 
@@ -50,8 +53,8 @@ A modern web application for tracking and visualizing competitive programming pr
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/codecracker.git
-   cd codecracker
+   git clone https://github.com/yourusername/solveiq.git
+   cd solveiq
    ```
 
 2. Install dependencies
@@ -76,33 +79,23 @@ A modern web application for tracking and visualizing competitive programming pr
       - `/codeforces` - CodeForces-specific components
       - `/leetcode` - LeetCode-specific components
       - `/codechef` - CodeChef-specific components
+      - `/SQ` - SuggestedQuestions components
     - `App.jsx` - Main application component
     - `routes.jsx` - Application routing configuration
 
-## Customization
+## User Settings
 
-To change the usernames for each platform, modify the following files:
-- CodeForces: Update the username variable in `client/src/components/CodeForces.jsx`
-- LeetCode: Update the username variable in `client/src/components/LeetCode.jsx`
-- CodeChef: Update the username variable in `client/src/components/CodeChef.jsx`
+You can configure your platform usernames in the Settings page:
+1. Navigate to the Settings page
+2. Enter your usernames for LeetCode, CodeForces, and CodeChef
+3. Save your changes
+4. Your profiles will be automatically loaded across the application
 
-## Future Roadmap
-
-- User authentication and profile management
-- SDE Sheet tracking and progress
-- Daily coding challenge suggestions
-- Unified search across platforms
-- Problem recommendation engine based on skill level
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-# Setting up Environment Variables
+## Setting up Environment Variables
 
 For security reasons, API keys and other sensitive information are stored in environment variables.
 
-## Setup
+### Setup
 
 1. Create a `.env` file in the `client/` directory
 2. Add your API keys following the format in `.env.example`
@@ -112,6 +105,32 @@ Example:
 ```
 VITE_DEEPSEEK_API_KEY=your_api_key_here
 ```
+
+## Features in Detail
+
+### Suggested Questions
+The Suggested Questions feature uses DeepSeek AI to analyze your LeetCode skills and recommend problems tailored to your strengths and weaknesses. The system:
+- Analyzes your solved problems by topic
+- Identifies areas for improvement
+- Generates balanced recommendations across difficulty levels
+- Allows filtering by difficulty and topics
+
+### Coding Activity Tracking
+SolveIQ provides comprehensive activity tracking across all platforms, helping you:
+- Visualize your coding consistency
+- Identify peak productivity periods
+- Track your growth over time
+
+## Future Roadmap
+
+- Contest reminders and scheduling
+- SDE Sheet tracking and progress
+- User authentication and profile management
+- Problem recommendation refinements with machine learning
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Important Note
 Never commit your `.env` file to Git. The `.env.example` file is provided as a template without actual values.
