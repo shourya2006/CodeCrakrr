@@ -19,7 +19,7 @@ const SuggestedQuestions = () => {
   const [recommendationsError, setRecommendationsError] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const username = "ShouryaW";
+  const username = "Om-Yadav";
 
   const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY || "";
 
@@ -66,7 +66,7 @@ const SuggestedQuestions = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "deepseek/deepseek-chat-v3-0324:free",
+            model: "deepseek/deepseek-r1:free",
             messages: [
               {
                 role: "system",
@@ -139,7 +139,7 @@ Based on my current skills and solved problems, suggest 100 LeetCode questions t
 - 20 Hard questions
 
 Focus on a balanced approach that addresses my weaker areas while reinforcing strengths.
-Return the response as a JSON array with each question containing title, difficulty, and topics.`;
+Return the response as a JSON array with each question containing title, difficulty, and topics. dont add any semi colons`;
 
       const aiResponse = await callDeepSeekAI(prompt);
 
@@ -159,13 +159,13 @@ Return the response as a JSON array with each question containing title, difficu
         ) {
           const content = aiResponse.choices[0].message.content;
           if (typeof content === "string") {
-            // console.log("Raw content from AI:", content);
+            console.log("Raw content from AI:", content);
             if (content.includes("```json")) {
               const jsonContent = content
                 .split("```json")[1]
                 .split("```")[0]
                 .trim();
-              // console.log("Extracted from json block:", jsonContent);
+              console.log("Extracted from json block:", jsonContent);
               recommendedQuestions = JSON.parse(jsonContent);
             } else if (content.includes("```")) {
               const jsonContent = content

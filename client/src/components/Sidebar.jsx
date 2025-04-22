@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
+import logo from '../Static/logo.png';
 const Sidebar = () => {
   const activeStyle = "px-4 py-3 flex items-center text-teal-500 bg-teal-50 rounded-lg font-medium";
   const inactiveStyle = "px-4 py-3 flex items-center text-gray-600 hover:bg-gray-50 rounded-lg hover:text-teal-500 transition-colors duration-200";
@@ -9,7 +9,9 @@ const Sidebar = () => {
     <div className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-10">
       <div className="flex items-center p-5 border-b">
         <div className="bg-gradient-to-r from-teal-500 to-emerald-500 h-10 w-10 rounded-lg flex items-center justify-center">
-          <div className="text-white font-bold text-xl">C</div>
+          <div className="text-white font-bold text-xl">
+            <img src={logo} alt="logo" className="w-10 h-10 rounded-lg" />
+          </div>
         </div>
         <div className="ml-3">
           <div className="font-semibold text-gray-800">Code Crakrr</div>
