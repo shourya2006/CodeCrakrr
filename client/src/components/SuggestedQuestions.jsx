@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import HeaderBar from "./HeaderBar";
 import LoadingState from "./SQ/LoadingState";
 import ErrorState from "./SQ/ErrorState";
@@ -6,6 +7,7 @@ import Filter from "./SQ/Filter";
 import Questions from "./SQ/Questions";
 
 const SuggestedQuestions = () => {
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -18,8 +20,27 @@ const SuggestedQuestions = () => {
   const [availableTopics, setAvailableTopics] = useState([]);
   const [recommendationsError, setRecommendationsError] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [username, setUsername] = useState(null);
 
-  const username = "Om-Yadav";
+  useEffect(() => {
+    try {
+      const settings = localStorage.getItem("platformSettings");
+      if (!settings) {
+        throw new Error("Platform settings not found");
+      }
+      
+      const parsedSettings = JSON.parse(settings);
+      if (!parsedSettings.leetcode) {
+        throw new Error("LeetCode username not found");
+      }
+      
+      setUsername(parsedSettings.leetcode);
+    } catch (error) {
+      console.error("Error retrieving LeetCode username:", error);
+      alert("User Details Not Found");
+      navigate("/settings");
+    }
+  }, [navigate]);
 
   const DEEPSEEK_API_KEY = import.meta.env.VITE_DEEPSEEK_API_KEY || "";
 
@@ -133,13 +154,17 @@ const SuggestedQuestions = () => {
       const prompt = `I'm a LeetCode user with the following skill stats (sorted by least to most problems solved in each category):
 ${JSON.stringify(formattedSkills, null, 2)}
 
-Based on my current skills and solved problems, suggest 100 LeetCode questions that would be beneficial for me to tackle next with the following distribution:
-- 30 Easy questions
-- 50 Medium questions
-- 20 Hard questions
+Based on my current skills and solved problems, suggest 50 LeetCode questions that would be beneficial for me to tackle next with the following distribution:
+- 15 Easy questions
+- 25 Medium questions
+- 10 Hard questions
 
 Focus on a balanced approach that addresses my weaker areas while reinforcing strengths.
-Return the response as a JSON array with each question containing title, difficulty, and topics. dont add any semi colons`;
+Return ONLY a JSON array with each question containing title, difficulty, and topics. 
+Make sure the response is valid JSON without any markdown formatting or extra text.
+Example format:
+[{"title": "Two Sum", "difficulty": "Easy", "topics": ["Array", "Hash Table"]}, ...]
+`;
 
       const aiResponse = await callDeepSeekAI(prompt);
 
@@ -158,114 +183,59 @@ Return the response as a JSON array with each question containing title, difficu
           aiResponse.choices[0].message.content
         ) {
           const content = aiResponse.choices[0].message.content;
-          if (typeof content === "string") {
-            console.log("Raw content from AI:", content);
-            if (content.includes("```json")) {
-              const jsonContent = content
-                .split("```json")[1]
-                .split("```")[0]
-                .trim();
-              console.log("Extracted from json block:", jsonContent);
-              recommendedQuestions = JSON.parse(jsonContent);
-            } else if (content.includes("```")) {
-              const jsonContent = content
-                .split("```")[1]
-                .split("```")[0]
-                .trim();
-              recommendedQuestions = JSON.parse(jsonContent);
-            } else if (content.includes("[") && content.includes("]")) {
-              const jsonMatch = content.match(/\[\s*\{[\s\S]*\}\s*\]/);
-              if (jsonMatch) {
-                recommendedQuestions = JSON.parse(jsonMatch[0]);
-              } else {
-                recommendedQuestions = JSON.parse(content);
-              }
-            } else {
-              recommendedQuestions = JSON.parse(content);
-            }
-          } else if (Array.isArray(content)) {
-            recommendedQuestions = content;
+          console.log("Raw content from AI:", content);
+          
+          // Try to extract JSON from the content
+          let jsonContent = "";
+          
+          // Case 1: Content is wrapped in code blocks
+          if (content.includes("```json")) {
+            jsonContent = content.split("```json")[1].split("```")[0].trim();
+          } else if (content.includes("```")) {
+            jsonContent = content.split("```")[1].split("```")[0].trim();
           }
-        } else if (typeof aiResponse === "string") {
-          // console.log("Raw string response from AI:", aiResponse);
-
-          if (aiResponse.includes("```json")) {
-            try {
-              const jsonContent = aiResponse
-                .split("```json")[1]
-                .split("```")[0]
-                .trim();
-              // console.log("Extracted from json block:", jsonContent);
-              recommendedQuestions = JSON.parse(jsonContent);
-            } catch (e) {
-              console.error("Error parsing json block:", e);
-              throw e;
-            }
-          } else if (aiResponse.includes("```")) {
-            try {
-              const jsonContent = aiResponse
-                .split("```")[1]
-                .split("```")[0]
-                .trim();
-              // console.log("Extracted from regular block:", jsonContent);
-              recommendedQuestions = JSON.parse(jsonContent);
-            } catch (e) {
-              console.error("Error parsing regular block:", e);
-              throw e;
-            }
-          } else if (aiResponse.includes("[") && aiResponse.includes("]")) {
-            const jsonMatch = aiResponse.match(/\[\s*\{[\s\S]*\}\s*\]/);
-            if (jsonMatch) {
-              try {
-                recommendedQuestions = JSON.parse(jsonMatch[0]);
-              } catch (e) {
-                console.error("Error parsing regex match:", e);
-                throw e;
-              }
-            } else {
-              try {
-                recommendedQuestions = JSON.parse(aiResponse);
-              } catch (e) {
-                console.error("Error parsing whole content:", e);
-                throw e;
-              }
-            }
-          } else {
-            try {
-              recommendedQuestions = JSON.parse(aiResponse);
-            } catch (e) {
-              console.error("Error parsing whole content:", e);
-              throw e;
+          // Case 2: Content has direct JSON array
+          else if (content.match(/^\s*\[.*\]\s*$/s)) {
+            jsonContent = content.trim();
+          }
+          // Case 3: Extract JSON array from mixed content
+          else if (content.includes("[") && content.includes("]")) {
+            const match = content.match(/\[\s*\{[\s\S]*\}\s*\]/);
+            if (match) {
+              jsonContent = match[0];
             }
           }
-        } else if (Array.isArray(aiResponse)) {
-          recommendedQuestions = aiResponse;
+          
+          if (!jsonContent) {
+            jsonContent = content;
+          }
+          
+          try {
+            recommendedQuestions = JSON.parse(jsonContent);
+            console.log("Successfully parsed JSON:", recommendedQuestions);
+          } catch (parseError) {
+            console.error("Error parsing extracted JSON:", parseError);
+            throw new Error("Failed to parse JSON from AI response: " + parseError.message);
+          }
+        } else {
+          throw new Error("Unexpected AI response format");
         }
-
-        if (
-          !Array.isArray(recommendedQuestions) ||
-          recommendedQuestions.length === 0
-        ) {
-          console.error(
-            "Failed to extract valid question array from AI response"
-          );
-          throw new Error(
-            "Could not parse a valid array of questions from the AI response"
-          );
+        
+        if (!Array.isArray(recommendedQuestions) || recommendedQuestions.length === 0) {
+          throw new Error("Could not parse a valid array of questions from the AI response");
         }
-
-        const processedQuestions = recommendedQuestions.map(
-          (question, index) => ({
-            id: String(index + 1),
-            title: question.title,
-            difficulty: question.difficulty || "Medium",
-            topics: question.topics || [],
-            url: `https://leetcode.com/problems/${question.title
-              .toLowerCase()
-              .replace(/[^a-zA-Z0-9]/g, "-")}/`,
-          })
-        );
-
+        
+        const processedQuestions = recommendedQuestions.map((question, index) => ({
+          id: String(index + 1),
+          title: question.title,
+          difficulty: question.difficulty || "Medium",
+          topics: question.topics || [],
+          url: `https://leetcode.com/problems/${question.title
+            .toLowerCase()
+            .replace(/[^a-zA-Z0-9]/g, "-")}/`,
+        }));
+        
+        // Extract unique topics
         const topics = new Set();
         processedQuestions.forEach((q) => {
           q.topics.forEach((topic) => topics.add(topic));
@@ -278,9 +248,7 @@ Return the response as a JSON array with each question containing title, difficu
         return processedQuestions;
       } catch (jsonError) {
         console.error("Error parsing DeepSeek AI response:", jsonError);
-        // console.log("Raw response:", aiResponse);
-        setRecommendationsError("Failed to parse DeepSeek AI response");
-
+        setRecommendationsError("Failed to parse DeepSeek AI response: " + jsonError.message);
         return [];
       }
     } catch (err) {

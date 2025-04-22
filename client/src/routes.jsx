@@ -7,7 +7,7 @@ import LeetCode from "./components/LeetCode";
 import QuestionOfTheDayPage from "./components/QuestionOfTheDayPage";
 import SuggestedQuestions from "./components/SuggestedQuestions";
 import LandingPage from "./components/LandingPage";
-
+import Settings from "./components/Settings";
 const ComingSoon = ({ title }) => (
   <div className="p-8">
     <div className="bg-white rounded-xl p-8 shadow-sm">
@@ -97,7 +97,7 @@ const routes = [
       },
       {
         path: "/settings",
-        element: <ComingSoon title="Account Settings" />,
+        element: <Settings />,
       },
       {
         path: "*",

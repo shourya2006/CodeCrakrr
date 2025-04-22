@@ -1,5 +1,5 @@
 import React from "react";
-
+import HeaderBar from "../HeaderBar";
 const ErrorState = ({ error }) => {
   return (
     <div className="p-8">

@@ -93,7 +93,7 @@ const LandingPage = () => {
               platforms.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/codeforces">
+              <Link to={localStorage.getItem('platformSettings') !== null ? '/codeforces' : '/settings'}>
                 <button className="bg-white text-black px-8 py-3 rounded-md font-medium hover:bg-gray-200 transition-colors flex items-center cursor-pointer">
                   Get Started <ArrowRight className="w-4 h-4 ml-2" />
                 </button>

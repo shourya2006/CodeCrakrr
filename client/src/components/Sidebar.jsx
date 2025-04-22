@@ -54,25 +54,8 @@ const Sidebar = () => {
           <i className="fa-solid fa-gear text-lg w-8"></i>
           Settings
         </NavLink>
-        
-        <button className={inactiveStyle + " w-full text-left"}>
-          <i className="fa-solid fa-right-from-bracket text-lg w-8"></i>
-          Log Out
-        </button>
       </div>
 
-      <div className="absolute bottom-0 w-full border-t p-4 bg-gray-50">
-        <div className="flex items-center">
-          <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="User" className="w-10 h-10 rounded-full object-cover border-2 border-teal-500" />
-          <div className="ml-3">
-            <div className="font-medium">Ronald Richards</div>
-            <div className="text-xs text-gray-400">ronaldrich@gmail.com</div>
-          </div>
-          <div className="ml-auto bg-white p-1.5 rounded-full shadow-sm">
-            <i className="fa-solid fa-ellipsis text-gray-400"></i>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

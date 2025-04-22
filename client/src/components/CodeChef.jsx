@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
 import StatCard from './StatCard';
 import ActivityHeatmap from './codechef/ActivityHeatmap';
@@ -6,13 +7,35 @@ import RatingGraph from './codechef/RatingGraph';
 import RecentContests from './codechef/RecentContests';
 
 const CodeChef = () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState(null);
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  const username = 'algo_x_addict';
+  useEffect(() => {
+    try {
+      const settings = localStorage.getItem("platformSettings");
+      if (!settings) {
+        throw new Error("Platform settings not found");
+      }
+      
+      const parsedSettings = JSON.parse(settings);
+      if (!parsedSettings.codechef) {
+        throw new Error("CodeChef username not found");
+      }
+      
+      setUsername(parsedSettings.codechef);
+    } catch (error) {
+      console.error("Error retrieving CodeChef username:", error);
+      alert("User Details Not Found");
+      navigate("/settings");
+    }
+  }, [navigate]);
   
   useEffect(() => {
+    if (!username) return;
+    
     const fetchUserData = async () => {
       try {
         setIsLoading(true);
@@ -35,7 +58,7 @@ const CodeChef = () => {
     };
     
     fetchUserData();
-  }, []);
+  }, [username]);
   
   const getLast6Months = () => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

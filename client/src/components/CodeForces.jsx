@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
 import StatCard from './StatCard';
 import ProblemDistribution from './codeforces/ProblemDistribution';
@@ -6,20 +7,41 @@ import ActivityHeatmap from './codeforces/ActivityHeatmap';
 import RatingGraph from './codeforces/RatingGraph';
 
 const CodeForces = () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [userSubmissions, setUserSubmissions] = useState([]);
   const [ratingHistory, setRatingHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  const username = 'one_unknown';
+  useEffect(() => {
+    try {
+      const settings = localStorage.getItem("platformSettings");
+      if (!settings) {
+        throw new Error("Platform settings not found");
+      }
+      
+      const parsedSettings = JSON.parse(settings);
+      if (!parsedSettings.codeforces) {
+        throw new Error("Codeforces handle not found");
+      }
+      
+      setUsername(parsedSettings.codeforces);
+    } catch (error) {
+      console.error("Error retrieving Codeforces handle:", error);
+      alert("User Details Not Found");
+      navigate("/settings");
+    }
+  }, [navigate]);
   
   useEffect(() => {
+    if (!username) return;
+    
     const fetchUserData = async () => {
       try {
         setIsLoading(true);
         
-
         const userInfoResponse = await fetch(`https://codeforces.com/api/user.info?handles=${username}`);
         const userInfoData = await userInfoResponse.json();
         
@@ -29,7 +51,6 @@ const CodeForces = () => {
         
         setUserInfo(userInfoData.result[0]);
         
-
         const submissionsResponse = await fetch(`https://codeforces.com/api/user.status?handle=${username}`);
         const submissionsData = await submissionsResponse.json();
         
