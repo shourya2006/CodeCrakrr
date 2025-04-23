@@ -428,7 +428,7 @@ const Settings = () => {
             <div className="mt-10 flex justify-end">
               <button
                 onClick={handleEditClick}
-                className="inline-flex items-center px-6 py-2.5 rounded-lg border border-blue-500 text-blue-600 font-medium hover:bg-blue-50 transition-colors"
+                className="inline-flex items-center px-6 py-2.5 rounded-lg border border-blue-500 text-blue-600 font-medium cursor-pointer hover:bg-blue-50 transition-colors"
               >
                 <Edit className="h-4 w-4 mr-2" />
                 Edit Handles

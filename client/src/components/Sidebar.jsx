@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logo from '../Static/logo.png';
 const Sidebar = () => {
   const activeStyle = "px-4 py-3 flex items-center text-teal-500 bg-teal-50 rounded-lg font-medium";
@@ -7,17 +7,19 @@ const Sidebar = () => {
 
   return (
     <div className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-10">
-      <div className="flex items-center p-5 border-b">
-        <div className="bg-gradient-to-r from-teal-500 to-emerald-500 h-10 w-10 rounded-lg flex items-center justify-center">
-          <div className="text-white font-bold text-xl">
-            <img src={logo} alt="logo" className="w-10 h-10 rounded-lg" />
+      <Link to="/">
+        <div className="flex items-center p-5 border-b">
+          <div className="bg-gradient-to-r from-teal-500 to-emerald-500 h-10 w-10 rounded-lg flex items-center justify-center">
+            <div className="text-white font-bold text-xl">
+              <img src={logo} alt="logo" className="w-10 h-10 rounded-lg" />
+            </div>
+          </div>
+          <div className="ml-3">
+            <div className="font-semibold text-gray-800">SolveIQ</div>
+            <div className="text-xs text-gray-400">India</div>
           </div>
         </div>
-        <div className="ml-3">
-          <div className="font-semibold text-gray-800">SolveIQ</div>
-          <div className="text-xs text-gray-400">India</div>
-        </div>
-      </div>
+      </Link>
 
       <div className="px-4 py-3 text-xs text-gray-400 font-medium">MAIN MENU</div>
       
