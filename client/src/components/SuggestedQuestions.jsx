@@ -424,27 +424,27 @@ Example format:
   }
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 md:p-8">
       <HeaderBar
         title="Suggested Questions"
         subtitle="Personalized recommendations for your skill level"
       />
 
       {recommendationsError && (
-        <div className="mb-6 text-sm text-red-600 bg-red-50 p-3 rounded-lg border border-red-200">
+        <div className="mb-4 sm:mb-6 text-xs sm:text-sm text-red-600 bg-red-50 p-2 sm:p-3 rounded-lg border border-red-200">
           <div className="font-medium">Error getting recommendations</div>
           <div>{recommendationsError}</div>
         </div>
       )}
 
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-lg font-semibold text-gray-700">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3 sm:gap-0">
+        <div className="text-base sm:text-lg font-semibold text-gray-700">
           Recommended Practice Questions
         </div>
         <button
           onClick={refreshQuestions}
           disabled={isGenerating}
-          className={`px-3 py-1 rounded flex items-center text-sm ${
+          className={`px-3 py-1 rounded flex items-center text-xs sm:text-sm ${
             isGenerating
               ? "bg-gray-100 text-gray-400 cursor-not-allowed"
               : "bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors"
@@ -452,7 +452,7 @@ Example format:
         >
           {isGenerating ? (
             <>
-              <div className="animate-spin h-4 w-4 border-t-2 border-b-2 border-indigo-500 rounded-full mr-2"></div>
+              <div className="animate-spin h-3 w-3 sm:h-4 sm:w-4 border-t-2 border-b-2 border-indigo-500 rounded-full mr-2"></div>
               Refreshing...
             </>
           ) : (
@@ -463,8 +463,8 @@ Example format:
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-6">
-        <div className="lg:col-span-1">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mt-4 sm:mt-6">
+        <div className="md:col-span-1">
           <Filter
             filters={filters}
             availableTopics={availableTopics}
@@ -475,7 +475,7 @@ Example format:
           />
         </div>
 
-        <div className="lg:col-span-3">
+        <div className="md:col-span-2 lg:col-span-3">
           <Questions filteredQuestions={filteredQuestions} error={error} />
         </div>
       </div>

@@ -297,13 +297,13 @@ const LeetCode = () => {
   ];
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 md:p-8">
       <HeaderBar
-        title={`LeetCode | ${username}`}
-        subtitle={userData.matchedUser.activeBadge?.displayName || ""}
+        title={`LeetCode | ${username || 'Loading...'}`}
+        subtitle={userData?.matchedUser?.activeBadge?.displayName || ""}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {stats.map((stat, index) => (
           <StatCard
             key={index}
@@ -316,19 +316,21 @@ const LeetCode = () => {
         ))}
       </div>
 
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8 overflow-x-auto">
         <ProblemStats userStats={userStats} />
       </div>
 
-      <div className="mb-8">
+      <div className="mb-6 sm:mb-8">
         <MaxStreak submissionCalendar={profileCalendar} />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <ActivityHeatmap
-          submissionCalendar={profileCalendar}
-          monthLabels={getLast6Months()}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="overflow-x-auto">
+          <ActivityHeatmap
+            submissionCalendar={profileCalendar}
+            monthLabels={getLast6Months()}
+          />
+        </div>
 
         <RecentQuestions recentSubmissions={processedSubmissions} />
       </div>

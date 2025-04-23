@@ -163,13 +163,13 @@ const CodeChef = () => {
   ];
   
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 md:p-8">
       <HeaderBar 
-        title={`CodeChef | ${username}`}
+        title={`CodeChef | ${username || 'Loading...'}`}
         subtitle={`${stars} ${currentRating !== 'N/A' ? `(${currentRating})` : ''}`}
       />
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {stats.map((stat, index) => (
           <StatCard 
             key={index}
@@ -182,17 +182,19 @@ const CodeChef = () => {
         ))}
       </div>
       
-      <div className="mb-8">
-        <RatingGraph ratingData={userData.ratingData || []} />
+      <div className="mb-6 sm:mb-8 overflow-x-auto">
+        <RatingGraph ratingData={userData?.ratingData || []} />
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <ActivityHeatmap 
-          heatmap={userData.heatMap || []} 
-          monthLabels={getLast6Months()}
-        />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="overflow-x-auto">
+          <ActivityHeatmap 
+            heatmap={userData?.heatMap || []} 
+            monthLabels={getLast6Months()}
+          />
+        </div>
         
-        <RecentContests contests={userData.ratingData || []} />
+        <RecentContests contests={userData?.ratingData || []} />
       </div>
     </div>
   );

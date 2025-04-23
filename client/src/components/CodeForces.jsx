@@ -333,13 +333,13 @@ const CodeForces = () => {
   ];
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-6 md:p-8">
       <HeaderBar 
-        title={`Codeforces | ${userInfo.handle}`}
-        subtitle={`${userInfo.rank || 'Unrated'} ${userInfo.rating ? `(${userInfo.rating})` : ''}`}
+        title={`Codeforces | ${userInfo?.handle || 'Loading...'}`}
+        subtitle={`${userInfo?.rank || 'Unrated'} ${userInfo?.rating ? `(${userInfo.rating})` : ''}`}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {stats.map((stat, index) => (
           <StatCard 
             key={index}
@@ -352,47 +352,49 @@ const CodeForces = () => {
         ))}
       </div>
 
+      <div className="mb-6 sm:mb-8 overflow-x-auto">
+        <RatingGraph ratingData={ratingData} userRating={userInfo?.rating} />
+      </div>
 
-      <RatingGraph ratingData={ratingData} userRating={userInfo.rating} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="overflow-x-auto">
+          <ActivityHeatmap 
+            activityData={activityData}
+            activityRawCounts={activityRawCounts}
+            monthLabels={monthLabels}
+            totalSolved={totalSolved}
+          />
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-
-        <ActivityHeatmap 
-          activityData={activityData}
-          activityRawCounts={activityRawCounts}
-          monthLabels={monthLabels}
-          totalSolved={totalSolved}
-        />
-
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-gray-800">Recent Contests</h2>
-            <button className="text-indigo-500 hover:text-indigo-600 flex items-center">
+        <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-800">Recent Contests</h2>
+            <button className="text-indigo-500 hover:text-indigo-600 flex items-center text-sm">
               <span className="mr-1">View All</span>
-              <i className="fa-solid fa-arrow-right text-sm"></i>
+              <i className="fa-solid fa-arrow-right text-xs sm:text-sm"></i>
             </button>
           </div>
           
           {recentContests.length === 0 ? (
-            <div className="flex justify-center items-center h-64 bg-gray-50 rounded-lg">
-              <p className="text-gray-500">No contest data available for this user</p>
+            <div className="flex justify-center items-center h-40 sm:h-64 bg-gray-50 rounded-lg">
+              <p className="text-gray-500 text-sm sm:text-base">No contest data available for this user</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4 overflow-y-auto max-h-80">
               {recentContests.map((contest, index) => (
-                <div key={index} className="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100 hover:border-gray-200">
-                  <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center text-white mr-4 shadow-md">
-                    <i className="fa-solid fa-code-branch"></i>
+                <div key={index} className="flex items-center p-2 sm:p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100 hover:border-gray-200">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-indigo-500 rounded-lg flex items-center justify-center text-white mr-3 sm:mr-4 shadow-md">
+                    <i className="fa-solid fa-code-branch text-xs sm:text-base"></i>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-medium">{contest.name}</h3>
-                    <div className="flex items-center text-sm text-gray-500">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-sm sm:text-base truncate">{contest.name}</h3>
+                    <div className="flex items-center text-xs sm:text-sm text-gray-500">
                       <span className="mr-2">Rank: {contest.rank}</span>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right ml-2">
                     <div className="text-xs text-gray-500">{contest.date}</div>
-                    <div className={`mt-1 font-medium ${contest.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    <div className={`mt-1 font-medium text-xs sm:text-sm ${contest.ratingChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                       {contest.ratingChange >= 0 ? '+' : ''}{contest.ratingChange}
                     </div>
                   </div>
@@ -403,10 +405,12 @@ const CodeForces = () => {
         </div>
       </div>
 
-      <ProblemDistribution 
-        problemsByDifficulty={problemsByDifficulty}
-        problemsByTags={problemsByTags}
-      />
+      <div className="mb-6 sm:mb-8">
+        <ProblemDistribution 
+          problemsByDifficulty={problemsByDifficulty}
+          problemsByTags={problemsByTags}
+        />
+      </div>
     </div>
   );
 };
