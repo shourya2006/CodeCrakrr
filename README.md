@@ -1,52 +1,50 @@
 # SolveIQ
 
+![SolveIQ](client/src/Static/Logo.png)
+
 A modern web application for tracking and visualizing competitive programming progress across multiple platforms including CodeForces, LeetCode, and CodeChef.
+
+🔗 **Live Demo:** [https://solveiq.vercel.app](https://solveiq.vercel.app)
 
 ## Features
 
-- **Multi-Platform Integration:** Track your performance across CodeForces, LeetCode, and CodeChef in one unified dashboard
-- **Problem Visualization:** View problems solved by difficulty and tags with intuitive charts
+- **Multi-Platform Integration:** Connect your CodeForces, LeetCode, and CodeChef accounts in one place
+- **Unified Dashboard:** Track your coding progress across all platforms
+- **Problem Visualization:** View problems solved by difficulty and topics with intuitive charts
 - **Activity Tracking:** Monitor your coding activity with interactive heatmaps
-- **Rating History:** Visualize your rating progression over time with detailed graphs
-- **Personalized Recommendations:** Get AI-powered question suggestions based on your skill level
-- **Clean UI:** Modern, responsive interface built with React and Tailwind CSS
+- **AI Recommendations:** Get personalized problem suggestions based on your skill level
+- **Daily Questions:** Stay up-to-date with the daily LeetCode problem
+- **Responsive Design:** Works on all devices from mobile to desktop
 
-## Platforms Supported
+## Screenshots
 
-### CodeForces
-- User profile statistics and rating
-- Problems solved by difficulty and tags
-- Recent contest performance
-- Activity heatmap visualization
-- Rating graph over time
+### Dashboard
+![Dashboard](client/src/Static/Dashboard.png)
 
-### LeetCode
-- Problem solving statistics by difficulty
-- Activity heatmap visualization
-- Recent submissions history
-- Maximum streak tracking
-- Global ranking
-- AI-powered question recommendations
+### Platform Stats
+- CodeForces rating history and recent contests
+- LeetCode problem-solving statistics and submission calendar
+- CodeChef rating and contest performance
 
-### CodeChef
-- User rating and profile information
-- Contest participation history
-- Rating progression visualization
-- Activity heatmap
+### AI-Powered Recommendations
+Get personalized question recommendations based on your current skill level and solved problems.
 
 ## Tech Stack
 
-- **Frontend:** React, React Router DOM
-- **Styling:** Tailwind CSS, Font Awesome icons
-- **Data Visualization:** Custom-built visualization components
-- **API Integration:** Integration with competitive programming platform APIs
-- **AI Features:** Powered by DeepSeek AI for personalized problem recommendations
+- **Frontend:** React 19, React Router DOM 7
+- **Styling:** Tailwind CSS 4, Font Awesome icons
+- **Build Tool:** Vite 6
+- **Deployment:** Vercel
+- **APIs:** 
+  - LeetCode API (alfa-leetcode-api.onrender.com)
+  - CodeForces API
+  - CodeChef API
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v14 or newer)
+- Node.js (v18+)
 - npm or yarn
 
 ### Installation
@@ -59,78 +57,87 @@ A modern web application for tracking and visualizing competitive programming pr
 
 2. Install dependencies
    ```bash
-   # Navigate to the client directory
    cd client
    npm install
    ```
 
-3. Start the development server
+3. Create environment variables
+   ```bash
+   # Create a .env file in the client directory
+   cp .env.example .env
+   # Add your API keys to the .env file
+   ```
+
+4. Start the development server
    ```bash
    npm run dev
    ```
 
-4. Open [http://localhost:5173](http://localhost:5173) in your browser
+5. Open [http://localhost:5173](http://localhost:5173) in your browser
+
+## Deployment
+
+### Deploying to Vercel
+
+1. Fork or clone this repository
+2. Connect your GitHub repository to Vercel
+3. Configure the build settings:
+   - Framework Preset: Vite
+   - Root Directory: client
+   - Build Command: npm run build
+   - Output Directory: dist
+4. Add your environment variables in the Vercel dashboard
+5. Deploy!
+
+## Usage
+
+1. **Settings:** Start by entering your platform usernames in the Settings page
+2. **Platform Pages:** Navigate to each platform page to see your stats
+3. **Suggested Questions:** Get AI-recommended practice problems
+4. **QOD:** Check the daily LeetCode question
 
 ## Project Structure
 
-- `/client` - Frontend React application
-  - `/src` - Source code
-    - `/components` - React components
-      - `/codeforces` - CodeForces-specific components
-      - `/leetcode` - LeetCode-specific components
-      - `/codechef` - CodeChef-specific components
-      - `/SQ` - SuggestedQuestions components
-    - `App.jsx` - Main application component
-    - `routes.jsx` - Application routing configuration
+```
+client/
+├── public/
+├── src/
+│   ├── assets/
+│   │   ├── components/
+│   │   │   ├── codeforces/
+│   │   │   ├── leetcode/
+│   │   │   ├── codechef/
+│   │   │   ├── SQ/
+│   │   │   └── ... (common components)
+│   │   ├── Static/
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── routes.jsx
+│   └── ... (config files)
+```
 
-## User Settings
+## Environment Variables
 
-You can configure your platform usernames in the Settings page:
-1. Navigate to the Settings page
-2. Enter your usernames for LeetCode, CodeForces, and CodeChef
-3. Save your changes
-4. Your profiles will be automatically loaded across the application
+Create a `.env` file in the client directory with the following variables:
 
-## Setting up Environment Variables
-
-For security reasons, API keys and other sensitive information are stored in environment variables.
-
-### Setup
-
-1. Create a `.env` file in the `client/` directory
-2. Add your API keys following the format in `.env.example`
-3. Make sure `.env` is in your `.gitignore` file
-
-Example:
 ```
 VITE_DEEPSEEK_API_KEY=your_api_key_here
 ```
-
-## Features in Detail
-
-### Suggested Questions
-The Suggested Questions feature uses DeepSeek AI to analyze your LeetCode skills and recommend problems tailored to your strengths and weaknesses. The system:
-- Analyzes your solved problems by topic
-- Identifies areas for improvement
-- Generates balanced recommendations across difficulty levels
-- Allows filtering by difficulty and topics
-
-### Coding Activity Tracking
-SolveIQ provides comprehensive activity tracking across all platforms, helping you:
-- Visualize your coding consistency
-- Identify peak productivity periods
-- Track your growth over time
-
-## Future Roadmap
-
-- Contest reminders and scheduling
-- SDE Sheet tracking and progress
-- User authentication and profile management
-- Problem recommendation refinements with machine learning
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Important Note
-Never commit your `.env` file to Git. The `.env.example` file is provided as a template without actual values.
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Thanks to the developers of the competitive programming APIs
+- Special thanks to Alfa-LeetCode-API for providing a reliable LeetCode API
+- Icon libraries and design inspiration from various sources
+
+---
+
+Made with ❤️ by [Your Name]
