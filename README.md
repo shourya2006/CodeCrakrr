@@ -19,7 +19,7 @@ A modern web application for tracking and visualizing competitive programming pr
 ## Screenshots
 
 ### Dashboard
-![Dashboard](client/src/Static/Dashboard.png)
+![Dashboard](client/src/Static/dashboard.png)
 
 ### Platform Stats
 - CodeForces rating history and recent contests
