@@ -20,20 +20,60 @@ const PlatformInput = ({
   isValidating,
 }) => {
   const { id, label, icon: Icon, color, description, placeholder } = platform;
+  
+  // Define color classes based on the color prop
+  const getColorClasses = (colorName) => {
+    switch (colorName) {
+      case 'purple':
+        return {
+          hover: 'hover:shadow-purple-100 hover:border-purple-200',
+          gradient: 'from-purple-100/40 to-purple-200/40',
+          bgGradient: 'from-purple-500 to-purple-700',
+          focusRing: 'focus:ring-purple-500',
+          iconHover: 'group-hover:text-purple-500'
+        };
+      case 'orange':
+        return {
+          hover: 'hover:shadow-orange-100 hover:border-orange-200',
+          gradient: 'from-orange-100/40 to-orange-200/40',
+          bgGradient: 'from-orange-500 to-orange-700',
+          focusRing: 'focus:ring-orange-500',
+          iconHover: 'group-hover:text-orange-500'
+        };
+      case 'teal':
+        return {
+          hover: 'hover:shadow-teal-100 hover:border-teal-200',
+          gradient: 'from-teal-100/40 to-teal-200/40',
+          bgGradient: 'from-teal-500 to-teal-700',
+          focusRing: 'focus:ring-teal-500',
+          iconHover: 'group-hover:text-teal-500'
+        };
+      default:
+        return {
+          hover: 'hover:shadow-blue-100 hover:border-blue-200',
+          gradient: 'from-blue-100/40 to-blue-200/40',
+          bgGradient: 'from-blue-500 to-blue-700',
+          focusRing: 'focus:ring-blue-500',
+          iconHover: 'group-hover:text-blue-500'
+        };
+    }
+  };
+
+  const colorClasses = getColorClasses(color);
 
   return (
     <div
       className={`group bg-white rounded-xl p-6 transition-all duration-300 border border-gray-100 
-                   hover:shadow-lg hover:shadow-${color}-100 hover:border-${color}-200 relative overflow-hidden`}
+                   hover:shadow-lg ${colorClasses.hover} relative overflow-hidden`}
     >
       <div
-        className={`absolute top-0 right-0 h-20 w-20 bg-gradient-to-br from-${color}-100/40 to-${color}-200/40 
+        className={`absolute top-0 right-0 h-20 w-20 bg-gradient-to-br ${colorClasses.gradient} 
                      rounded-bl-full opacity-0 group-hover:opacity-100 transition-all duration-500`}
       ></div>
 
       <div className="flex items-center mb-5">
         <div
-          className={`bg-gradient-to-br from-${color}-500 to-${color}-700 p-3 rounded-lg shadow-md group-hover:scale-110 transition-transform duration-300`}
+          className={`bg-gradient-to-br ${colorClasses.bgGradient} p-3 rounded-lg shadow-md group-hover:scale-110 transition-transform duration-300`}
         >
           <Icon className="h-5 w-5 text-white" />
         </div>
@@ -66,9 +106,9 @@ const PlatformInput = ({
               ? "border-green-300"
               : "border-gray-200"
           } 
-                   focus:ring-2 focus:ring-${
-                     error ? "red" : isValid ? "green" : color
-                   }-500 
+                   focus:ring-2 ${
+                     error ? "focus:ring-red-500" : isValid ? "focus:ring-green-500" : colorClasses.focusRing
+                   } 
                    focus:border-transparent outline-none transition-all text-gray-700 bg-gray-50 
                    group-hover:bg-white`}
         />
@@ -81,7 +121,7 @@ const PlatformInput = ({
             <CheckCircle className="h-5 w-5 text-green-500" />
           ) : (
             <BadgeCheck
-              className={`h-5 w-5 text-gray-300 group-hover:text-${color}-500 transition-colors duration-300`}
+              className={`h-5 w-5 text-gray-300 ${colorClasses.iconHover} transition-colors duration-300`}
             />
           )}
         </div>
@@ -404,14 +444,29 @@ const Settings = () => {
                 .filter(([, value]) => value)
                 .map(([platform, handle]) => {
                   const { name, icon: Icon, color } = platformInfo[platform];
+                  
+                  let bgColorClass = 'bg-blue-100';
+                  let textColorClass = 'text-blue-600';
+                  
+                  if (color === 'purple') {
+                    bgColorClass = 'bg-purple-100';
+                    textColorClass = 'text-purple-600';
+                  } else if (color === 'orange') {
+                    bgColorClass = 'bg-orange-100';
+                    textColorClass = 'text-orange-600';
+                  } else if (color === 'teal') {
+                    bgColorClass = 'bg-teal-100';
+                    textColorClass = 'text-teal-600';
+                  }
+                  
                   return (
                     <div
                       key={platform}
                       className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm"
                     >
                       <div className="flex items-center">
-                        <div className={`bg-${color}-100 p-2 rounded-lg`}>
-                          <Icon className={`h-5 w-5 text-${color}-600`} />
+                        <div className={`${bgColorClass} p-2 rounded-lg`}>
+                          <Icon className={`h-5 w-5 ${textColorClass}`} />
                         </div>
                         <div className="ml-4 flex-1">
                           <h3 className="font-medium text-gray-800">{name}</h3>
