@@ -48,7 +48,7 @@ const SuggestedQuestions = () => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://localhost:3000/skillStats/${username}`
+        `https://alfa-leetcode-api.onrender.com/skillStats/${username}`
       );
 
       if (!response.ok) {
