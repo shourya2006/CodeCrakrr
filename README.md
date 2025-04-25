@@ -139,5 +139,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Icon libraries and design inspiration from various sources
 
 ---
-
-Made with ❤️ by [Your Name]
