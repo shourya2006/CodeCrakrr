@@ -82,7 +82,7 @@ const SuggestedQuestions = () => {
           method: "POST",
           headers: {
             Authorization: `Bearer ${DEEPSEEK_API_KEY}`,
-            "HTTP-Referer": "http://localhost:3000",
+            "HTTP-Referer": "https://alfa-leetcode-api.onrender.com",
             "X-Title": "CodeCracker",
             "Content-Type": "application/json",
           },

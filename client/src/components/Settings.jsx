@@ -200,7 +200,7 @@ const Settings = () => {
         }
 
         try {
-          const response = await fetch(`http://localhost:3000/${username}`);
+          const response = await fetch(`https://alfa-leetcode-api.onrender.com/${username}`);
           const data = await response.json();
           if (
             data.errors &&
