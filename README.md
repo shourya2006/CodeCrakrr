@@ -19,7 +19,7 @@ A modern web application for tracking and visualizing competitive programming pr
 ## Screenshots
 
 ### Dashboard
-![Dashboard](client/src/Static/Dashboard.png)
+![Dashboard](client/src/Static/dashboard.png)
 
 ### Platform Stats
 - CodeForces rating history and recent contests
@@ -139,5 +139,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Icon libraries and design inspiration from various sources
 
 ---
-
-Made with ❤️ by [Your Name]
