@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import logo from '../Static/logo.png';
+import logo from '../Static/Logo.png';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const activeStyle = "px-4 py-3 flex items-center text-teal-500 bg-teal-50 rounded-lg font-medium";

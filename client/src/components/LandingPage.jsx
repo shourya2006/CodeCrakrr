@@ -10,7 +10,7 @@ import {
   Code,
   Medal,
 } from "lucide-react";
-import dashboard from "../Static/Dashboard.png";
+import dashboard from "../Static/dashboard.png";
 
 const LandingPage = () => {
   const features = [
