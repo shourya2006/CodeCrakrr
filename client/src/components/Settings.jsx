@@ -21,7 +21,7 @@ const PlatformInput = ({
 }) => {
   const { id, label, icon: Icon, color, description, placeholder } = platform;
   
-  // Define color classes based on the color prop
+
   const getColorClasses = (colorName) => {
     switch (colorName) {
       case 'purple':
