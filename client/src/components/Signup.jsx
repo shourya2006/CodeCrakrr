@@ -2,9 +2,10 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../Static/logo.png";
 import { AuthContext } from "../context/AuthContext";
-
+import { HandleContext } from "../context/HandleContext";
 const Signup = () => {
   const { setToken } = useContext(AuthContext);
+  const { handle } = useContext(HandleContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -57,7 +58,8 @@ const Signup = () => {
     if (response.ok) {
       console.log("Data submitted successfully!");
       setToken(data.authToken);
-      navigate("/settings");
+      localStorage.clear();
+      navigate(!handle ? "/settings" : "/codeforces");
     } else {
       alert("server error. Refresh the page and try again");
     }

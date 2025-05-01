@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
 import StatCard from './StatCard';
 import ProblemDistribution from './codeforces/ProblemDistribution';
 import ActivityHeatmap from './codeforces/ActivityHeatmap';
 import RatingGraph from './codeforces/RatingGraph';
-
+import { HandleContext } from '../context/HandleContext';
 const CodeForces = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState(null);
@@ -14,20 +14,25 @@ const CodeForces = () => {
   const [ratingHistory, setRatingHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+  const {handle} = useContext(HandleContext);
   useEffect(() => {
     try {
-      const settings = localStorage.getItem("platformSettings");
-      if (!settings) {
-        throw new Error("Platform settings not found");
-      }
+      // const settings = localStorage.getItem("platformSettings");
+      // if (!settings) {
+      //   throw new Error("Platform settings not found");
+      // }
       
-      const parsedSettings = JSON.parse(settings);
-      if (!parsedSettings.codeforces) {
+      // const parsedSettings = JSON.parse(settings);
+      // if (!parsedSettings.codeforces) {
+      //   throw new Error("Codeforces handle not found");
+      // }
+      
+      // setUsername(parsedSettings.codeforces);
+      if(handle){
+        setUsername(handle.codeforcesHandle);
+      }else{
         throw new Error("Codeforces handle not found");
       }
-      
-      setUsername(parsedSettings.codeforces);
     } catch (error) {
       console.error("Error retrieving Codeforces handle:", error);
       alert("User Details Not Found");

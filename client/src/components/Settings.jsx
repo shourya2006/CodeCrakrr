@@ -1,4 +1,13 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useContext,
+} from "react";
+import { useNavigate } from "react-router-dom";
+import { HandleContext } from "../context/HandleContext";
+import { AuthContext } from "../context/AuthContext";
 import {
   ChartBar,
   Code,
@@ -20,41 +29,40 @@ const PlatformInput = ({
   isValidating,
 }) => {
   const { id, label, icon: Icon, color, description, placeholder } = platform;
-  
 
   const getColorClasses = (colorName) => {
     switch (colorName) {
-      case 'purple':
+      case "purple":
         return {
-          hover: 'hover:shadow-purple-100 hover:border-purple-200',
-          gradient: 'from-purple-100/40 to-purple-200/40',
-          bgGradient: 'from-purple-500 to-purple-700',
-          focusRing: 'focus:ring-purple-500',
-          iconHover: 'group-hover:text-purple-500'
+          hover: "hover:shadow-purple-100 hover:border-purple-200",
+          gradient: "from-purple-100/40 to-purple-200/40",
+          bgGradient: "from-purple-500 to-purple-700",
+          focusRing: "focus:ring-purple-500",
+          iconHover: "group-hover:text-purple-500",
         };
-      case 'orange':
+      case "orange":
         return {
-          hover: 'hover:shadow-orange-100 hover:border-orange-200',
-          gradient: 'from-orange-100/40 to-orange-200/40',
-          bgGradient: 'from-orange-500 to-orange-700',
-          focusRing: 'focus:ring-orange-500',
-          iconHover: 'group-hover:text-orange-500'
+          hover: "hover:shadow-orange-100 hover:border-orange-200",
+          gradient: "from-orange-100/40 to-orange-200/40",
+          bgGradient: "from-orange-500 to-orange-700",
+          focusRing: "focus:ring-orange-500",
+          iconHover: "group-hover:text-orange-500",
         };
-      case 'teal':
+      case "teal":
         return {
-          hover: 'hover:shadow-teal-100 hover:border-teal-200',
-          gradient: 'from-teal-100/40 to-teal-200/40',
-          bgGradient: 'from-teal-500 to-teal-700',
-          focusRing: 'focus:ring-teal-500',
-          iconHover: 'group-hover:text-teal-500'
+          hover: "hover:shadow-teal-100 hover:border-teal-200",
+          gradient: "from-teal-100/40 to-teal-200/40",
+          bgGradient: "from-teal-500 to-teal-700",
+          focusRing: "focus:ring-teal-500",
+          iconHover: "group-hover:text-teal-500",
         };
       default:
         return {
-          hover: 'hover:shadow-blue-100 hover:border-blue-200',
-          gradient: 'from-blue-100/40 to-blue-200/40',
-          bgGradient: 'from-blue-500 to-blue-700',
-          focusRing: 'focus:ring-blue-500',
-          iconHover: 'group-hover:text-blue-500'
+          hover: "hover:shadow-blue-100 hover:border-blue-200",
+          gradient: "from-blue-100/40 to-blue-200/40",
+          bgGradient: "from-blue-500 to-blue-700",
+          focusRing: "focus:ring-blue-500",
+          iconHover: "group-hover:text-blue-500",
         };
     }
   };
@@ -107,7 +115,11 @@ const PlatformInput = ({
               : "border-gray-200"
           } 
                    focus:ring-2 ${
-                     error ? "focus:ring-red-500" : isValid ? "focus:ring-green-500" : colorClasses.focusRing
+                     error
+                       ? "focus:ring-red-500"
+                       : isValid
+                       ? "focus:ring-green-500"
+                       : colorClasses.focusRing
                    } 
                    focus:border-transparent outline-none transition-all text-gray-700 bg-gray-50 
                    group-hover:bg-white`}
@@ -135,17 +147,20 @@ const PlatformInput = ({
 };
 
 const Settings = () => {
+  const { handle, setHandle } = useContext(HandleContext);
+  const navigate = useNavigate();
+  const { token } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
   const [formData, setFormData] = useState({
-    codeforces: "",
-    leetcode: "",
-    codechef: "",
+    codeforcesHandle: "",
+    leetcodeHandle: "",
+    codechefHandle: "",
   });
   const [validation, setValidation] = useState({
-    codeforces: { isValid: false, error: null, isValidating: false },
-    leetcode: { isValid: false, error: null, isValidating: false },
-    codechef: { isValid: false, error: null, isValidating: false },
+    codeforcesHandle: { isValid: false, error: null, isValidating: false },
+    leetcodeHandle: { isValid: false, error: null, isValidating: false },
+    codechefHandle: { isValid: false, error: null, isValidating: false },
   });
   const [isEditMode, setIsEditMode] = useState(false);
   const [hasData, setHasData] = useState(false);
@@ -153,41 +168,57 @@ const Settings = () => {
   const timersRef = useRef({});
 
   useEffect(() => {
-    const savedPlatformData = localStorage.getItem("platformSettings");
-    if (savedPlatformData) {
-      try {
-        const parsedData = JSON.parse(savedPlatformData);
-        setFormData(parsedData);
+    // const savedPlatformData = localStorage.getItem("platformSettings");
+    // if (savedPlatformData) {
+    //   try {
+    //     const parsedData = JSON.parse(savedPlatformData);
+    //     setFormData(parsedData);
 
-        const hasAnyData = Object.values(parsedData).some((value) => value);
-        setHasData(hasAnyData);
-        setIsEditMode(!hasAnyData);
+    //     const hasAnyData = Object.values(parsedData).some((value) => value);
+    //     setHasData(hasAnyData);
+    //     setIsEditMode(!hasAnyData);
 
-        if (isEditMode) {
-          Object.entries(parsedData).forEach(([platform, value]) => {
-            if (value) {
-              debounce(platform, value);
-            }
-          });
-        }
-      } catch (error) {
-        console.error("Error loading saved platform settings:", error);
-        setIsEditMode(true);
-      }
+    //     if (isEditMode) {
+    //       Object.entries(parsedData).forEach(([platform, value]) => {
+    //         if (value) {
+    //           debounce(platform, value);
+    //         }
+    //       });
+    //     }
+    //   } catch (error) {
+    //     console.error("Error loading saved platform settings:", error);
+    //     setIsEditMode(true);
+    //   }
+    // } else {
+    //   setIsEditMode(true);
+    // }
+
+    if (handle) {
+      setFormData({
+        codeforcesHandle: handle.codeforcesHandle,
+        leetcodeHandle: handle.leetcodeHandle,
+        codechefHandle: handle.codechefHandle,
+      });
+      setHasData(true);
+      setIsEditMode(false);
     } else {
       setIsEditMode(true);
     }
-  }, []);
+  }, [handle, navigate]);
 
   const platformInfo = {
-    codeforces: { name: "Codeforces", icon: ChartBar, color: "purple" },
-    leetcode: { name: "LeetCode", icon: Code, color: "orange" },
-    codechef: { name: "CodeChef", icon: ChefHat, color: "teal" },
+    codeforcesHandle: {
+      name: "codeforcesHandle",
+      icon: ChartBar,
+      color: "purple",
+    },
+    leetcodeHandle: { name: "leetcodeHandle", icon: Code, color: "orange" },
+    codechefHandle: { name: "codechefHandle", icon: ChefHat, color: "teal" },
   };
 
   const platforms = [
     {
-      id: "codeforces",
+      id: "codeforcesHandle",
       label: "Codeforces Handle",
       icon: ChartBar,
       color: "purple",
@@ -223,7 +254,7 @@ const Settings = () => {
       },
     },
     {
-      id: "leetcode",
+      id: "leetcodeHandle",
       label: "LeetCode Username",
       icon: Code,
       color: "orange",
@@ -240,7 +271,9 @@ const Settings = () => {
         }
 
         try {
-          const response = await fetch(`https://alfa-leetcode-api.onrender.com/${username}`);
+          const response = await fetch(
+            `https://alfa-leetcode-api.onrender.com/${username}`
+          );
           const data = await response.json();
           if (
             data.errors &&
@@ -267,7 +300,7 @@ const Settings = () => {
       },
     },
     {
-      id: "codechef",
+      id: "codechefHandle",
       label: "CodeChef Username",
       icon: ChefHat,
       color: "teal",
@@ -348,7 +381,7 @@ const Settings = () => {
           },
         }));
       }
-    }, 3000);
+    }, 1500);
   }, []);
 
   const handleChange = (e) => {
@@ -370,7 +403,7 @@ const Settings = () => {
     debounce(name, value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const hasErrors = Object.values(validation).some((v) => v.error);
@@ -388,17 +421,25 @@ const Settings = () => {
     setLoading(true);
 
     try {
-      localStorage.setItem("platformSettings", JSON.stringify(formData));
-
-      setTimeout(() => {
-        setLoading(false);
-        setSaved(true);
-        setHasData(true);
-        setIsEditMode(false);
-        setTimeout(() => setSaved(false), 3000);
-      }, 1000);
-    } catch (error) {
-      console.error("Error saving settings to localStorage:", error);
+      const response = await fetch("http://localhost:3000/api/data/addhandle", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": `${token}`,
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      if (data.error) {
+        alert("Server Error. Refresh the page and try again");
+        return;
+      }
+      setHandle(data);
+      setLoading(false);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch {
       alert("There was an error saving your settings. Please try again.");
       setLoading(false);
     }
@@ -409,18 +450,29 @@ const Settings = () => {
   };
 
   const handleCancelClick = () => {
-    const savedPlatformData = localStorage.getItem("platformSettings");
+    // const savedPlatformData = localStorage.getItem("platformSettings");
 
-    if (savedPlatformData) {
-      try {
-        const parsedData = JSON.parse(savedPlatformData);
-        setFormData(parsedData);
-      } catch (error) {
-        console.error("Error loading saved platform settings:", error);
-      }
+    // if (savedPlatformData) {
+    //   try {
+    //     const parsedData = JSON.parse(savedPlatformData);
+    //     setFormData(parsedData);
+    //   } catch (error) {
+    //     console.error("Error loading saved platform settings:", error);
+    //   }
+    // }
+
+    // setIsEditMode(false);
+    if (handle) {
+      setFormData({
+        codeforcesHandle: handle.codeforcesHandle,
+        leetcodeHandle: handle.leetcodeHandle,
+        codechefHandle: handle.codechefHandle,
+      });
+      setHasData(true);
+      setIsEditMode(false);
+    } else {
+      setIsEditMode(true);
     }
-
-    setIsEditMode(false);
   };
 
   return (
@@ -444,21 +496,21 @@ const Settings = () => {
                 .filter(([, value]) => value)
                 .map(([platform, handle]) => {
                   const { name, icon: Icon, color } = platformInfo[platform];
-                  
-                  let bgColorClass = 'bg-blue-100';
-                  let textColorClass = 'text-blue-600';
-                  
-                  if (color === 'purple') {
-                    bgColorClass = 'bg-purple-100';
-                    textColorClass = 'text-purple-600';
-                  } else if (color === 'orange') {
-                    bgColorClass = 'bg-orange-100';
-                    textColorClass = 'text-orange-600';
-                  } else if (color === 'teal') {
-                    bgColorClass = 'bg-teal-100';
-                    textColorClass = 'text-teal-600';
+
+                  let bgColorClass = "bg-blue-100";
+                  let textColorClass = "text-blue-600";
+
+                  if (color === "purple") {
+                    bgColorClass = "bg-purple-100";
+                    textColorClass = "text-purple-600";
+                  } else if (color === "orange") {
+                    bgColorClass = "bg-orange-100";
+                    textColorClass = "text-orange-600";
+                  } else if (color === "teal") {
+                    bgColorClass = "bg-teal-100";
+                    textColorClass = "text-teal-600";
                   }
-                  
+
                   return (
                     <div
                       key={platform}
@@ -521,8 +573,17 @@ const Settings = () => {
                 className={`relative inline-flex items-center px-8 py-3 rounded-lg overflow-hidden cursor-pointer font-medium
                           bg-blue-600 hover:bg-blue-700
                           text-white shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 
-                          transition-all duration-300 transform hover:-translate-y-1 ${Object.values(validation).some(v => v.isValidating) ? 'opacity-70' : ''}`}
-                disabled={loading || Object.values(validation).some(v => v.isValidating)}
+                          transition-all duration-300 transform hover:-translate-y-1 ${
+                            Object.values(validation).some(
+                              (v) => v.isValidating
+                            )
+                              ? "opacity-70"
+                              : ""
+                          }`}
+                disabled={
+                  loading ||
+                  Object.values(validation).some((v) => v.isValidating)
+                }
               >
                 <span className="absolute top-0 left-0 w-full h-full bg-white/10 opacity-0 hover:opacity-20 transition-opacity"></span>
                 {loading ? (
@@ -532,7 +593,13 @@ const Settings = () => {
                 ) : (
                   <Save className="h-5 w-5 mr-3" />
                 )}
-                {loading ? "Saving..." : Object.values(validation).some(v => v.isValidating) ? "Validating..." : saved ? "Saved!" : "Save Settings"}
+                {loading
+                  ? "Saving..."
+                  : Object.values(validation).some((v) => v.isValidating)
+                  ? "Validating..."
+                  : saved
+                  ? "Saved!"
+                  : "Save Settings"}
               </button>
             </div>
           </form>

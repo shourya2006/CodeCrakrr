@@ -2,9 +2,10 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../Static/logo.png";
 import { AuthContext } from "../context/AuthContext";
-
+import { HandleContext } from "../context/HandleContext";
 const Login = () => {
   const { setToken } = useContext(AuthContext);
+  const { handle } = useContext(HandleContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -41,7 +42,8 @@ const Login = () => {
       if (response.ok) {
         console.log("Data submitted successfully!");
         setToken(data.authToken);
-        navigate("/settings");
+        localStorage.clear();
+        navigate(!handle ? "/settings" : "/codeforces"); //Not Working to be Fixed
       } else {
         alert("Server Error. Refresh the page and try again");
       }
@@ -95,12 +97,6 @@ const Login = () => {
                 >
                   Password
                 </label>
-                <Link
-                  to="/forgot-password"
-                  className="text-sm text-teal-600 hover:text-teal-500"
-                >
-                  Forgot?
-                </Link>
               </div>
               <input
                 id="password"

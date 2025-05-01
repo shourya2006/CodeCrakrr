@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderBar from './HeaderBar';
 import StatCard from './StatCard';
 import ActivityHeatmap from './codechef/ActivityHeatmap';
 import RatingGraph from './codechef/RatingGraph';
 import RecentContests from './codechef/RecentContests';
+import { HandleContext } from '../context/HandleContext';
 
 const CodeChef = () => {
   const navigate = useNavigate();
@@ -12,22 +13,26 @@ const CodeChef = () => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+  const {handle} = useContext(HandleContext);
   useEffect(() => {
     try {
-      const settings = localStorage.getItem("platformSettings");
-      if (!settings) {
-        throw new Error("Platform settings not found");
-      }
+      // const settings = localStorage.getItem("platformSettings");
+      // if (!settings) {
+      //   throw new Error("Platform settings not found");
+      // }
       
-      const parsedSettings = JSON.parse(settings);
-      if (!parsedSettings.codechef) {
+      // const parsedSettings = JSON.parse(settings);
+      // if (!parsedSettings.codechef) {
+      //   throw new Error("CodeChef username not found");
+      // }
+      
+      // setUsername(parsedSettings.codechef);
+      if(handle){
+        setUsername(handle.codechefHandle);
+      }else{
         throw new Error("CodeChef username not found");
       }
-      
-      setUsername(parsedSettings.codechef);
-    } catch (error) {
-      console.error("Error retrieving CodeChef username:", error);
+    } catch {
       alert("User Details Not Found");
       navigate("/settings");
     }

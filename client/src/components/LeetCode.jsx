@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderBar from "./HeaderBar";
 import StatCard from "./StatCard";
@@ -6,6 +6,7 @@ import ActivityHeatmap from "./leetcode/ActivityHeatmap";
 import ProblemStats from "./leetcode/ProblemStats";
 import RecentQuestions from "./leetcode/RecentQuestions";
 import MaxStreak from "./leetcode/MaxStreak";
+import { HandleContext } from "../context/HandleContext";
 
 const LEETCODE_API_BASE = "https://leetcode-api-faisalshohag.vercel.app";
 
@@ -15,22 +16,27 @@ const LeetCode = () => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const {handle} = useContext(HandleContext);
 
   useEffect(() => {
     try {
-      const settings = localStorage.getItem("platformSettings");
-      if (!settings) {
-        throw new Error("Platform settings not found");
-      }
+      // const settings = localStorage.getItem("platformSettings");
+      // if (!settings) {
+      //   throw new Error("Platform settings not found");
+      // }
       
-      const parsedSettings = JSON.parse(settings);
-      if (!parsedSettings.leetcode) {
+      // const parsedSettings = JSON.parse(settings);
+      // if (!parsedSettings.leetcode) {
+      //   throw new Error("LeetCode username not found");
+      // }
+      
+      // setUsername(parsedSettings.leetcode);
+      if(handle){
+        setUsername(handle.leetcodeHandle);
+      }else{
         throw new Error("LeetCode username not found");
       }
-      
-      setUsername(parsedSettings.leetcode);
-    } catch (error) {
-      console.error("Error retrieving LeetCode username:", error);
+    } catch {
       alert("User Details Not Found");
       navigate("/settings");
     }

@@ -13,13 +13,14 @@ import { AuthContext } from "./context/AuthContext";
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({children}) => {
-  const {token} = useContext(AuthContext);
-  if(!token){
+const ProtectedRoute = ({ children }) => {
+  const { token } = useContext(AuthContext);
+  if (!token) {
     return <Navigate to="/login" />;
   }
   return children;
-}
+};
+
 
 const ComingSoon = ({ title }) => (
   <div className="p-8">
@@ -94,7 +95,11 @@ const routes = [
   },
   {
     path: "/",
-    element: <ProtectedRoute><Layout /></ProtectedRoute>,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "/codeforces",

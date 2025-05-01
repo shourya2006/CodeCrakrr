@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderBar from "./HeaderBar";
 import LoadingState from "./SQ/LoadingState";
 import ErrorState from "./SQ/ErrorState";
 import Filter from "./SQ/Filter";
 import Questions from "./SQ/Questions";
+import { HandleContext } from "../context/HandleContext";
 
 const SuggestedQuestions = () => {
   const navigate = useNavigate();
@@ -21,22 +22,16 @@ const SuggestedQuestions = () => {
   const [recommendationsError, setRecommendationsError] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [username, setUsername] = useState(null);
+  const { handle } = useContext(HandleContext);
 
   useEffect(() => {
     try {
-      const settings = localStorage.getItem("platformSettings");
-      if (!settings) {
-        throw new Error("Platform settings not found");
-      }
-      
-      const parsedSettings = JSON.parse(settings);
-      if (!parsedSettings.leetcode) {
+      if (handle) {
+        setUsername(handle);
+      } else {
         throw new Error("LeetCode username not found");
       }
-      
-      setUsername(parsedSettings.leetcode);
-    } catch (error) {
-      console.error("Error retrieving LeetCode username:", error);
+    } catch {
       alert("User Details Not Found");
       navigate("/settings");
     }
@@ -184,10 +179,10 @@ Example format:
         ) {
           const content = aiResponse.choices[0].message.content;
           console.log("Raw content from AI:", content);
-          
+
           // Try to extract JSON from the content
           let jsonContent = "";
-          
+
           // Case 1: Content is wrapped in code blocks
           if (content.includes("```json")) {
             jsonContent = content.split("```json")[1].split("```")[0].trim();
@@ -205,36 +200,45 @@ Example format:
               jsonContent = match[0];
             }
           }
-          
+
           if (!jsonContent) {
             jsonContent = content;
           }
-          
+
           try {
             recommendedQuestions = JSON.parse(jsonContent);
             console.log("Successfully parsed JSON:", recommendedQuestions);
           } catch (parseError) {
             console.error("Error parsing extracted JSON:", parseError);
-            throw new Error("Failed to parse JSON from AI response: " + parseError.message);
+            throw new Error(
+              "Failed to parse JSON from AI response: " + parseError.message
+            );
           }
         } else {
           throw new Error("Unexpected AI response format");
         }
-        
-        if (!Array.isArray(recommendedQuestions) || recommendedQuestions.length === 0) {
-          throw new Error("Could not parse a valid array of questions from the AI response");
+
+        if (
+          !Array.isArray(recommendedQuestions) ||
+          recommendedQuestions.length === 0
+        ) {
+          throw new Error(
+            "Could not parse a valid array of questions from the AI response"
+          );
         }
-        
-        const processedQuestions = recommendedQuestions.map((question, index) => ({
-          id: String(index + 1),
-          title: question.title,
-          difficulty: question.difficulty || "Medium",
-          topics: question.topics || [],
-          url: `https://leetcode.com/problems/${question.title
-            .toLowerCase()
-            .replace(/[^a-zA-Z0-9]/g, "-")}/`,
-        }));
-        
+
+        const processedQuestions = recommendedQuestions.map(
+          (question, index) => ({
+            id: String(index + 1),
+            title: question.title,
+            difficulty: question.difficulty || "Medium",
+            topics: question.topics || [],
+            url: `https://leetcode.com/problems/${question.title
+              .toLowerCase()
+              .replace(/[^a-zA-Z0-9]/g, "-")}/`,
+          })
+        );
+
         // Extract unique topics
         const topics = new Set();
         processedQuestions.forEach((q) => {
@@ -248,7 +252,9 @@ Example format:
         return processedQuestions;
       } catch (jsonError) {
         console.error("Error parsing DeepSeek AI response:", jsonError);
-        setRecommendationsError("Failed to parse DeepSeek AI response: " + jsonError.message);
+        setRecommendationsError(
+          "Failed to parse DeepSeek AI response: " + jsonError.message
+        );
         return [];
       }
     } catch (err) {

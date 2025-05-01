@@ -13,9 +13,10 @@ import {
   Medal,
 } from "lucide-react";
 import dashboard from "../Static/dashboard.png";
-
+import { HandleContext } from "../context/HandleContext";
 const LandingPage = () => {
   const {token} = useContext(AuthContext);
+  const {handle} = useContext(HandleContext);
   const features = [
     {
       id: 1,
@@ -96,7 +97,7 @@ const LandingPage = () => {
               platforms.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to={token ? '/settings' : '/login'}>
+              <Link to={token && !(handle) ? '/settings': token && handle? '/codeforces': '/login'}>
                 <button className="bg-white text-black px-8 py-3 rounded-md font-medium hover:bg-gray-200 transition-colors flex items-center cursor-pointer hover:scale-105 transform transition-transform duration-300 ease-in-out">
                   Get Started <ArrowRight className="w-4 h-4 ml-2 bounce-right" />
                 </button>
