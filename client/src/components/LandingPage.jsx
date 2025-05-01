@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import {
   ArrowRight,
   Layout,
@@ -13,6 +15,7 @@ import {
 import dashboard from "../Static/dashboard.png";
 
 const LandingPage = () => {
+  const {token} = useContext(AuthContext);
   const features = [
     {
       id: 1,
@@ -93,7 +96,7 @@ const LandingPage = () => {
               platforms.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to={localStorage.getItem('platformSettings') !== null ? '/codeforces' : '/settings'}>
+              <Link to={token ? '/settings' : '/login'}>
                 <button className="bg-white text-black px-8 py-3 rounded-md font-medium hover:bg-gray-200 transition-colors flex items-center cursor-pointer hover:scale-105 transform transition-transform duration-300 ease-in-out">
                   Get Started <ArrowRight className="w-4 h-4 ml-2 bounce-right" />
                 </button>

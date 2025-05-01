@@ -10,6 +10,12 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
+
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+}));
 app.use(express.json());
 app.use('/api/auth/', authRoutes);
 app.use('/api/data/', dataRoutes);

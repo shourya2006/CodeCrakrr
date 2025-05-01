@@ -1,5 +1,4 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import CodeForces from "./components/CodeForces";
 import CodeChef from "./components/CodeChef";
@@ -8,6 +7,20 @@ import QuestionOfTheDayPage from "./components/QuestionOfTheDayPage";
 import SuggestedQuestions from "./components/SuggestedQuestions";
 import LandingPage from "./components/LandingPage";
 import Settings from "./components/Settings";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import { AuthContext } from "./context/AuthContext";
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
+
+const ProtectedRoute = ({children}) => {
+  const {token} = useContext(AuthContext);
+  if(!token){
+    return <Navigate to="/login" />;
+  }
+  return children;
+}
+
 const ComingSoon = ({ title }) => (
   <div className="p-8">
     <div className="bg-white rounded-xl p-8 shadow-sm">
@@ -72,8 +85,16 @@ const routes = [
     element: <LandingPage />,
   },
   {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
     path: "/",
-    element: <Layout />,
+    element: <ProtectedRoute><Layout /></ProtectedRoute>,
     children: [
       {
         path: "/codeforces",

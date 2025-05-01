@@ -33,7 +33,7 @@ router.post(
     const hashedPassword = await bcrypt.hash(password, salt);
 
     try {
-      const user = await User.create({ name, email, password: hashedPassword });
+      const user = await User.create({ name, email: email.toLowerCase(), password: hashedPassword });
       const data = {
         user: {
           id: user._id,
@@ -51,9 +51,7 @@ router.post(
   "/login",
   [
     body("email").isEmail().withMessage("Invalid email"),
-    body("password")
-      .isLength({ min: 8 })
-      .withMessage("Password must be at least 8 characters long"),
+    body("password").isLength({ min: 1 }).withMessage("Password Can't be empty"),
   ],
   async (req, res) => {
     const errors = validationResult(req);
