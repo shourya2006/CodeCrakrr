@@ -121,6 +121,7 @@ Create a `.env` file in the client directory with the following variables:
 
 ```
 VITE_DEEPSEEK_API_KEY=your_api_key_here
+VITE_API_URL=your_api_url_here
 ```
 
 ## Contributing
