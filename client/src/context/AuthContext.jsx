@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const getUser = async () => {
-        const res = await fetch(`http://localhost:3000/api/auth/getuser`, {
+        const res = await fetch(`${VITE_API_URL}/api/auth/getuser`, {
           headers: {
             "auth-token": `${localStorage.getItem("token")}`,
           },
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  
+
   return (
     <AuthContext.Provider value={{ token, setToken }}>
       {children}
