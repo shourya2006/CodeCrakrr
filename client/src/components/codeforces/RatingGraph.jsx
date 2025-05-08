@@ -9,7 +9,6 @@ import {
   ResponsiveContainer, 
   Area
 } from 'recharts';
-import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { TrendingUp, Award } from 'lucide-react';
 
 
