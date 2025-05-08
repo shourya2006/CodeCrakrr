@@ -1,16 +1,24 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../Static/Logo.png";
 import { AuthContext } from "../context/AuthContext";
 import { HandleContext } from "../context/HandleContext";
 const Login = () => {
-  const { setToken } = useContext(AuthContext);
+  const { token,setToken } = useContext(AuthContext);
   const { handle } = useContext(HandleContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(()=>{
+    if(token){
+      handle ?navigate("/codeforces") : navigate("/settings");
+      return;
+    }
+  },[token])
+
   const VITE_API_URL= import.meta.env.VITE_API_URL || "";
   
   const handleChange = (e) => {

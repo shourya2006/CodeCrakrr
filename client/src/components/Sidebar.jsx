@@ -116,6 +116,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           onClick={() => {
             setToken(null);
             setHandle(null);
+            localStorage.removeItem("token");
           }}
         >
           <i className="fa-solid fa-sign-out-alt text-lg w-8"></i>
