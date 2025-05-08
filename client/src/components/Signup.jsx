@@ -59,6 +59,7 @@ const Signup = () => {
       console.log("Data submitted successfully!");
       setToken(data.authToken);
       localStorage.clear();
+      localStorage.setItem("token", data.authToken);
       navigate(!handle ? "/settings" : "/codeforces");
     } else {
       alert("server error. Refresh the page and try again");

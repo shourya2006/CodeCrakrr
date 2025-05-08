@@ -44,6 +44,7 @@ const Login = () => {
         console.log("Data submitted successfully!");
         setToken(data.authToken);
         localStorage.clear();
+        localStorage.setItem("token", data.authToken);
         navigate(!handle ? "/settings" : "/codeforces"); //Not Working to be Fixed
       } else {
         alert("Server Error. Refresh the page and try again");

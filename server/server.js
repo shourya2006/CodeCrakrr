@@ -12,7 +12,7 @@ const server = http.createServer(app);
 
 
 app.use(cors({
-    origin: 'https://solveiq.vercel.app',
+    origin: ['https://solveiq.vercel.app', 'http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }));
