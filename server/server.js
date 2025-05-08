@@ -12,16 +12,15 @@ const server = http.createServer(app);
 
 
 app.use(cors({
-    // origin: (origin, callback) => {
-    //     let arr = ['https://solveiq.vercel.app', 'http://localhost:5173'];
-    //     if(arr.includes(origin)){
-    //       callback(null, true);
-    //     }else{
-    //         console.log(origin);
-    //         callback(new Error('Not allowed by CORS'));
-    //     }
-    // },
-    origin: true,
+    origin: (origin, callback) => {
+        let arr = ['https://solveiq.vercel.app', 'http://localhost:5173'];
+        if(arr.includes(origin)){
+          callback(null, true);
+        }else{
+            console.log(origin);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }));
