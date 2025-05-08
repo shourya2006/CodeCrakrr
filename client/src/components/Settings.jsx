@@ -166,6 +166,8 @@ const Settings = () => {
   const [hasData, setHasData] = useState(false);
 
   const timersRef = useRef({});
+  const VITE_API_URL= import.meta.env.VITE_API_URL || "";
+
 
   useEffect(() => {
     // const savedPlatformData = localStorage.getItem("platformSettings");
@@ -421,7 +423,7 @@ const Settings = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/api/data/addhandle", {
+      const response = await fetch(`${VITE_API_URL}/api/data/addhandle`, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {

@@ -7,14 +7,14 @@ const Signup = () => {
   const { setToken } = useContext(AuthContext);
   const { handle } = useContext(HandleContext);
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const VITE_API_URL= import.meta.env.VITE_API_URL || "";
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "confirmPassword") {
@@ -33,7 +33,7 @@ const Signup = () => {
       alert("Passwords do not match");
       return;
     }
-    const response = await fetch("http://localhost:3000/api/auth/register", {
+    const response = await fetch(`${VITE_API_URL}/api/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
