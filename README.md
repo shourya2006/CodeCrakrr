@@ -1,6 +1,5 @@
 # SolveIQ
 
-![SolveIQ](client/src/Static/Logo.png)
 
 A modern web application for tracking and visualizing competitive programming progress across multiple platforms including CodeForces, LeetCode, and CodeChef.
 
